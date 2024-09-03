@@ -5,7 +5,6 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'develop',
-                    credentialsId: 'jenkins-github',
                     url: 'https://github.com/sanket-pandit/django-todo-cicd.git'
             }
         }
