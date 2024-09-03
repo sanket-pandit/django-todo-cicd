@@ -1,25 +1,20 @@
-# Use the official Jenkins base image
+# Use the Jenkins base image
 FROM jenkins/jenkins:lts
 
-# Switch to root user to perform administrative tasks
+# Switch to root user to make system changes
 USER root
 
-# Install Docker CLI inside the Jenkins container
-RUN apt-get update && \
-    apt-get install -y docker.io && \
-    apt-get clean
+# Install Docker CLI
+RUN apt-get update && apt-get install -y \
+    docker.io
 
-# Check if the docker group exists before creating it
-RUN if ! getent group docker > /dev/null 2>&1; then groupadd docker; fi && \
+# Add the docker group if it does not exist and add the jenkins user to it
+RUN getent group docker || groupadd docker && \
     usermod -aG docker jenkins
 
-# Switch back to the Jenkins user
+# Switch back to jenkins user
 USER jenkins
 
-# Expose Jenkins and agent ports
+# Expose the Jenkins port
 EXPOSE 8080
-EXPOSE 50000
-
-# Define default command to run Jenkins
-CMD ["jenkins-plugin-cli", "--plugins", "docker-workflow"]
 
