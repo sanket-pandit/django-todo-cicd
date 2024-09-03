@@ -10,12 +10,12 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'sudo docker build -t todo-app -f Dockerfile.app .'
+                sh 'docker build -t todo-app -f Dockerfile.app .'
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh 'sudo docker run -d -p 8000:8000 todo-app'
+                sh 'docker run -d -p 8000:8000 todo-app'
             }
         }
     }
